@@ -5,6 +5,8 @@ using Xamarin.Forms.Xaml;
 
 using NoteKeeper.Models;
 using NoteKeeper.ViewModels;
+using System.Collections.Generic;
+using NoteKeeper.Services;
 
 namespace NoteKeeper.Views
 {
@@ -19,25 +21,22 @@ namespace NoteKeeper.Views
         {
             InitializeComponent();
 
-            BindingContext = this.viewModel = viewModel;
+            this.viewModel = viewModel;
+            BindingContext = this.viewModel;
         }
 
         public ItemDetailPage()
         {
             InitializeComponent();
 
-            var item = new Item
-            {
-                Text = "Item 1",
-                Description = "This is an item description."
-            };
-
-            viewModel = new ItemDetailViewModel(item);
+            viewModel = new ItemDetailViewModel();
             BindingContext = viewModel;
         }
 
+
         private void Cancel_Clicked(object sender, EventArgs e)
         {
+            viewModel.NoteHeading = "XXXX";
             DisplayAlert("Cancel Option", "Cancel was selected", "Button 2", "Button 1");
         }
 
