@@ -9,6 +9,8 @@ namespace NoteKeeper.ViewModels
         public Note Note { get; set; }
         public IList<String> CourseList { get; set; }
 
+        public bool IsNewNote { get; set; } 
+
         public String NoteHeading
         {
             get { return Note.Heading; }
@@ -31,7 +33,7 @@ namespace NoteKeeper.ViewModels
 
         public String NoteCourse
         {
-            get { return CourseList[0]; }
+            get { return Note.Course; }
             set
             {
                 Note.Course = value;
@@ -41,7 +43,8 @@ namespace NoteKeeper.ViewModels
 
         public ItemDetailViewModel(Note note = null)
         {
-            Title = "Edit Note";
+            IsNewNote = note == null;
+            Title = IsNewNote ? "Add Note" : "Edit Note";
             InitializeCourseList();
             Note = note ?? new Note();
         }

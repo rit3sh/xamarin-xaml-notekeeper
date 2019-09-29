@@ -17,16 +17,26 @@ namespace NoteKeeper.ViewModels
 
         public ItemsViewModel()
         {
-            Title = "Browse";
+            Title = "NoteKeeper";
             Notes = new ObservableCollection<Note>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            //MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
-            //{
-            //    var newNote = note as Note;
-            //    Notes.Add(newNote);
-            //    await TestDataStore.AddNoteAsync(newNote);
-            //});
+            MessagingCenter.Subscribe<ItemDetailPage, Note>(this, "SaveNote",
+                async (sender, note) =>
+                {
+                    Notes.Add(note);
+                    await TestDataStore.AddNoteAsync(note);
+                }
+                );
+
+            MessagingCenter.Subscribe<ItemDetailPage, Note>(this, "UpdateNote",
+                async (sender, note) =>
+                {
+                    await TestDataStore.UpdateNoteAsync(note);
+
+                    await ExecuteLoadItemsCommand();
+                }
+                );
         }
 
         async Task ExecuteLoadItemsCommand()

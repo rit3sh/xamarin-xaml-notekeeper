@@ -36,13 +36,14 @@ namespace NoteKeeper.Views
 
         private void Cancel_Clicked(object sender, EventArgs e)
         {
-            viewModel.NoteHeading = "XXXX";
-            DisplayAlert("Cancel Option", "Cancel was selected", "Button 2", "Button 1");
+            Navigation.PopModalAsync();
         }
 
         private void Save_Clicked(object sender, EventArgs e)
         {
-            DisplayAlert("Save Option", "Save was selected", "Button 2", "Button 1");
+            var message = viewModel.IsNewNote ? "SaveNote" : "UpdateNote";
+            MessagingCenter.Send(this, message, viewModel.Note);
+            Navigation.PopModalAsync();
         }
     }
 }
